@@ -1,41 +1,175 @@
-.iframeWindow {
-    position: absolute;
-    width: 100vw;
-    height: 90vh;
-    border: 0;
-    padding: 0;
+body {
     margin: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #fff;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#urlInput {
-    position: absolute;
-    padding: 0em;
-    padding-left: 0.5em;
-    margin: 0;
-    left: 0;
+.light {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.dark {
+    background-color: #333;
+    color: white;
+}
+
+.dark .search-container {
+    background-color: #444;
+}
+
+.dark .search-bar {
+    color: white;
+}
+
+.dark .modal {
+    background-color: #444;
+    color: white;
+}
+
+.dark .setting label,
+.dark h2,
+.dark .setting select,
+.dark .setting input[type="text"],
+.dark .setting input[type="color"] {
+    color: white;
+}
+
+.dark .setting select,
+.dark .setting input[type="text"] {
+    background-color: #555;
+    border: 1px solid #666;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.logo {
+    margin-right: 10px;
+}
+
+.search-bar {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background: transparent;
+    transition: width 0.3s ease, color 0.3s ease;
+    color: black;
+}
+
+.search-bar:focus {
+    width: 400px;
+}
+
+.search-button,
+.settings-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    color: #4CAF50;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.dark .search-button,
+.dark .settings-button {
+    color: #6FE075;
+}
+
+.search-button:hover,
+.settings-button:hover {
+    color: #45a049;
+}
+
+.settings-button {
+    margin-left: 5px;
+}
+
+.settings-button:hover {
+    transform: rotate(90deg);
+}
+
+.modal-overlay {
+    position: fixed;
     top: 0;
-    width: 80vw;
-    height: 10vh;
-    border: 0;
-    outline: 0;
-    color: aliceblue;
-    background-color: #25252a;
-    font-size: 5vh;
-}
-
-#searchButton {
-    position: absolute;
-    margin: 0;
+    left: 0;
     right: 0;
-    top: 0;
-    width: 20vw;
-    height: 10vh;
-    border: 0;
-    outline: 0;
-    color: #141414;
-    background-color: aliceblue;
-    font-size: 5vh;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.setting {
+    margin-bottom: 15px;
+}
+
+.setting label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting select,
+.setting input {
+    width: 100%;
+    padding: 5px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.buttons button:first-child {
+    background-color: #4CAF50;
+}
+
+.buttons button:last-child {
+    background-color: #f44336;
+}
+
+.hidden {
+    display: none;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
