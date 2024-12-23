@@ -1,26 +1,146 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script src="/uv/uv.bundle.js"></script>
-        <script src="/uv/uv.config.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alkaline Search</title>
+    <link rel="stylesheet" href="example.css">
 
-        <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("/uv/sw.js", {
-                    scope: __uv$config.prefix,
-                });
-            });
+    <script src="/uv/uv.bundle.js"></script>
+    <script src="/uv/uv.config.js"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/uv/sw.js", {
+            scope: __uv$config.prefix,
+          });
+        });
+      }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
-        </script>
 
-        <link rel="stylesheet" href="example.css">
-    </head>
-    <body>
-        <input type="text" id="urlInput" placeholder="Enter URL here">
-        <button id="searchButton">Search Text</button>
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
 
+        body.dark {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between elements */
+            padding: 20px;
+            box-sizing: border-box;
+            height: auto; /* Ensure the height is content-based */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            height: auto; /* Ensure the input doesn't stretch vertically */
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0078d7;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #005fa3;
+        }
+
+        .iframeWindow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none; /* Hidden until triggered */
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="search-container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="url(#gradient)" stroke-width="4" />
+                    <path d="M13 27L20 13L27 27" stroke="url(#gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#ff00ff" />
+                            <stop offset="1" stop-color="#00ffff" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <input type="text" id="urlInput" placeholder="Enter URL here" class="search-bar">
+            <button id="searchButton" class="search-button">Search</button>
+        </div>
         <iframe id="iframeWindow" class="iframeWindow"></iframe>
-    </body>
-    <script src="example.js"></script>
+    </main>
+    <script>
+        // Match theme to system preferences
+        function applySystemTheme() {
+            const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.body.className = isDarkMode ? "dark" : "light";
+        }
+
+        // Apply theme on load and when system changes
+        applySystemTheme();
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applySystemTheme);
+
+        // Search functionality
+        document.getElementById("urlInput").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("searchButton").click();
+            }
+        });
+
+        document.getElementById("searchButton").onclick = function () {
+            const urlInput = document.getElementById("urlInput").value.trim();
+            const iframe = document.getElementById("iframeWindow");
+
+            let searchUrl = urlInput.includes(".")
+                ? urlInput
+                : `https://www.google.com/search?q=${encodeURIComponent(urlInput)}`;
+
+            if (!searchUrl.startsWith("http")) {
+                searchUrl = `https://${searchUrl}`;
+            }
+
+            iframe.src = __uv$config.prefix + __uv$config.encodeUrl(searchUrl);
+
+            // Show the iframe and hide the search container
+            iframe.style.display = "block";
+            document.querySelector(".search-container").style.display = "none";
+        };
+    </script>
+</body>
 </html>
